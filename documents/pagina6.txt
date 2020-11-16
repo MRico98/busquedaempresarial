@@ -1,1 +1,1 @@
-To be or not to be. I am what i am.
+Perl isn\'t as nice a language as PHP

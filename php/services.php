@@ -23,8 +23,8 @@ class Services{
         return $this->dbconnection->queryOperation("SELECT indiceinvertido.indice,indiceinvertido.docid,documentos.resumen,indiceinvertido.count FROM diccionario INNER JOIN documentos INNER JOIN indiceinvertido ON indiceinvertido.indice = diccionario.indice AND documentos.docid = indiceinvertido.docid WHERE indiceinvertido.indice LIKE '%".$searchparameter."%';");
     }
 
-    public function createSearchQuery($searchparameter){
-        return $this->dbconnection->queryOperation("SELECT indiceinvertido.indice,indiceinvertido.docid,documentos.resumen,indiceinvertido.count FROM diccionario INNER JOIN documentos INNER JOIN indiceinvertido ON indiceinvertido.indice = diccionario.indice AND documentos.docid = indiceinvertido.docid WHERE indiceinvertido.indice = '".$searchparameter."';");
+    public function createSearchQuery($searchquery){
+        return $this->dbconnection->queryOperation("SELECT nombredocumento,contenido, MATCH(contenido) AGAINST('".$searchquery."' IN BOOLEAN MODE) AS Score FROM documentos WHERE MATCH(contenido) AGAINST ('".$searchquery."' IN BOOLEAN MODE);");
     }
 
     public function closeConnection(){
