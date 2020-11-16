@@ -9,6 +9,10 @@ class Services{
         $this->dbconnection = new DatabaseConnection($configuration["server"],$configuration["username"],$configuration["password"],$configuration["database"]);
     }
 
+    public function setMysqlDocumentsTableItem($namefile,$contentfile){
+        $this->dbconnection->queryOperation("insert into documentos(nombredocumento,contenido) values ('".$namefile."','".$contentfile."');");
+    }
+
     public function setInvertIndexDb($invertindex,$files){
         $this->setWords(array_keys($invertindex));
         $this->setDocuments($files);

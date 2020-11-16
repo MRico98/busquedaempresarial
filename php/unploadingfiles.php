@@ -2,21 +2,12 @@
 include 'fileunploaded.php';
 include 'invertindex.php';
 include 'wordstandardization.php';
-include "services.php";
+include 'services.php';
 
 if(isset($_POST['submit'])){
     $files = getUnploadedFiles();
-    $indiceinvertido = new InvertIndex();
-    $files = textStandardization($files);
-    $numfiles = count($files);
-    for($i=0;$i<$numfiles;$i++){
-        $indiceinvertido->extractWords($files[$i]->getNamefile(),$files[$i]->getContentfile());
-    }
-    $indiceinvertido->orderAlphabetically();
-    $indiceinvertido->groupingByFreq();
-    $hashing = $indiceinvertido->getHashingfreq();
     $servicios = new Services();
-    $servicios->setInvertIndexDb($hashing,$files);
+    setTableDocumentsInfo($files,$servicios);
     $servicios->closeConnection();
     header("Location: ../pages/filesupload.html");
     exit();
@@ -32,12 +23,11 @@ function getUnploadedFiles(){
     return $files;
 }
 
-function textStandardization($files){
-    $numfiles = count($files);
-    for($i=0;$i<$numfiles;$i++){
-        $files[$i]->setContentfile(WordStandardization::toLowerCase($files[$i]->getContentfile()));
-        $files[$i]->setContentfile(WordStandardization::deletePunctuationSign($files[$i]->getContentfile()));
+function setTableDocumentsInfo($files,$servicioquery){
+    $numdocuments = count($files);
+    for($i=0;$i<$numdocuments;$i++){
+        $servicioquery->setMysqlDocumentsTableItem($files[$i]->getNamefile(),$files[$i]->getContentfile());
     }
-    return $files;
 }
+
 ?>

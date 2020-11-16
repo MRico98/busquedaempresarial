@@ -6,14 +6,14 @@ include 'wordstandardization.php';
 $busqueda = $_POST['search'];
 $busqueda = WordStandardization::toLowerCase($busqueda);
 $queryform = new QueryForm($busqueda);
-$resultado = $queryform->getAllVerbsCoincidence();
-$documentsname = $queryform->applyLogicOperators();
 $query = $queryform->getVerbs();
-$documentsinfo = buildDocumentInfoArray($documentsname);
-$rankins = new VectorSpaceModel();
-$rankeddocuments = $rankins->rankingDocuments($query,$documentsinfo);
-header(constructHeader($rankeddocuments));
+print_r($queryform->getVerbs());
+echo "<br>";
+print_r($queryform->getLogicoperators());
+/*
+header("Location: ../pages/search.php?");
 exit();
+*/
 
 function buildDocumentInfoArray($documentsname){
     $documentarrayinfo = [];

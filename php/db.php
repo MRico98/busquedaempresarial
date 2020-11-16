@@ -3,7 +3,7 @@ class DatabaseConnection {
     private $connection;
 
     function __construct($servername,$username,$password,$database){
-        $this->connection = mysqli_connect("localhost","root","Admin123","indiceinvertido");
+        $this->connection = mysqli_connect($servername,$username,$password,$database);
     }
 
     function getConnection(){
